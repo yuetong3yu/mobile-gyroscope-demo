@@ -15,8 +15,8 @@ function App() {
     z: 0,
   })
 
-  const handleDeviceAccelerometer = useRef < Functoin > (() => {})
-  const handleDeviceOrientation = useRef < Functoin > (() => {})
+  const handleDeviceAccelerometer = useRef(() => {})
+  const handleDeviceOrientation = useRef(() => {})
 
   useEffect(() => {
     setUserAgent(navigator.userAgent)
