@@ -10,11 +10,17 @@ function App() {
     gamma: 0,
   })
 
-  const [response, setResponse] = useState('')
-
   useEffect(() => {
     setUserAgent(navigator.userAgent)
   }, [])
+
+  const handleDeviceOrientation = (event) => {
+    setDeviceOrientation({
+      alpha: event.alpha,
+      beta: event.beta,
+      gamma: event.gamma,
+    })
+  }
 
   const handleClick = () => {
     // ios 13+ device need permission to use device orientation
@@ -22,9 +28,16 @@ function App() {
       DeviceMotionEvent &&
       typeof DeviceMotionEvent.requestPermission === 'function'
     ) {
-      DeviceMotionEvent.requestPermission().then((res) => {
-        console.error('permission', res)
-      })
+      DeviceMotionEvent.requestPermission()
+        .then((response) => {
+          if (response === 'granted') {
+            window.addEventListener(
+              'deviceorientation',
+              handleDeviceOrientation
+            )
+          }
+        })
+        .catch(console.error)
     }
   }
 
@@ -43,7 +56,6 @@ function App() {
       <h3>alpha: {deviceOrientation.alpha}</h3>
       <h3>beta: {deviceOrientation.beta}</h3>
       <h3>gamma: {deviceOrientation.gamma}</h3>
-      <h3 style={{ color: 'red' }}>res: {response}</h3>
     </div>
   )
 }
