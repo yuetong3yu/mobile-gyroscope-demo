@@ -9,6 +9,11 @@ function App() {
     beta: 0,
     gamma: 0,
   })
+  const [deviceAccelerometer, setDeviceAccelerometer] = useState({
+    x: 0,
+    y: 0,
+    z: 0,
+  })
 
   useEffect(() => {
     setUserAgent(navigator.userAgent)
@@ -19,6 +24,14 @@ function App() {
       alpha: Number(event.alpha).toFixed(2),
       beta: Number(event.beta).toFixed(2),
       gamma: Number(event.gamma).toFixed(2),
+    })
+  }
+
+  const handleDeviceAccelerometer = (event) => {
+    setDeviceAccelerometer({
+      x: Number(event.acceleration.x).toFixed(2),
+      y: Number(event.acceleration.y).toFixed(2),
+      z: Number(event.acceleration.z).toFixed(2),
     })
   }
 
@@ -53,7 +66,7 @@ function App() {
       AccelerometerEvent.requestPermission()
         .then((response) => {
           if (response === 'granted') {
-            window.addEventListener('devicemotion', handleDeviceOrientation)
+            window.addEventListener('devicemotion', handleDeviceAccelerometer)
           }
         })
         .catch(console.error)
@@ -61,7 +74,7 @@ function App() {
   }
 
   const handleRemoveAcceleroClick = () => {
-    window.removeEventListener('devicemotion', handleDeviceOrientation)
+    window.removeEventListener('devicemotion', handleDeviceAccelerometer)
   }
 
   return (
@@ -74,7 +87,7 @@ function App() {
       <button onClick={handleRemoveAcceleroClick}>
         remove accelerometer listener
       </button>
-      <h1>Your Device: </h1>
+      <h1>设备: </h1>
       <h3>{userAgent}</h3>
       <br />
       <h2>陀螺仪</h2>
@@ -82,6 +95,10 @@ function App() {
       <h3>竖直翻转: {deviceOrientation.beta}</h3>
       <h3>水平翻转: {deviceOrientation.gamma}</h3>
       <br />
+      <h2>加速器</h2>
+      <h3>X轴激素: {deviceAccelerometer.x}</h3>
+      <h3>竖直翻转: {deviceAccelerometer.y}</h3>
+      <h3>水平翻转: {deviceAccelerometer.z}</h3>
     </div>
   )
 }
