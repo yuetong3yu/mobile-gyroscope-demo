@@ -52,9 +52,9 @@ function App() {
       <h1>Your Device: </h1>
       <h3>{userAgent}</h3>
       <br />
-      <h3>alpha: {deviceOrientation.alpha}</h3>
-      <h3>beta: {deviceOrientation.beta}</h3>
-      <h3>gamma: {deviceOrientation.gamma}</h3>
+      <h3>水平旋转: {deviceOrientation.alpha}</h3>
+      <h3>竖直翻转: {deviceOrientation.beta}</h3>
+      <h3>水平翻转: {deviceOrientation.gamma}</h3>
     </div>
   )
 }
