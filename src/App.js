@@ -59,6 +59,11 @@ function App() {
   }
 
   const handleAddAcceleroClick = () => {
+    console.log('AccelerometerEvent', AccelerometerEvent)
+    console.log(
+      'AccelerometerEvent.requestPermission',
+      AccelerometerEvent.requestPermission
+    )
     if (
       AccelerometerEvent &&
       typeof AccelerometerEvent.requestPermission === 'function'
