@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 
-let listenerId = null
-
 function App() {
   const [userAgent, setUserAgent] = useState('')
 
@@ -18,9 +16,9 @@ function App() {
 
   const handleDeviceOrientation = (event) => {
     setDeviceOrientation({
-      alpha: event.alpha,
-      beta: event.beta,
-      gamma: event.gamma,
+      alpha: Number(event.alpha).toFixed(2),
+      beta: Number(event.beta).toFixed(2),
+      gamma: Number(event.gamma).toFixed(2),
     })
   }
 
