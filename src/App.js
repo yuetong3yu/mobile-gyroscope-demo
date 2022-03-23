@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 
 function App() {
@@ -15,27 +15,28 @@ function App() {
     z: 0,
   })
 
+  const handleDeviceAccelerometer = useRef < Functoin > (() => {})
+  const handleDeviceOrientation = useRef < Functoin > (() => {})
+
   useEffect(() => {
     setUserAgent(navigator.userAgent)
+    handleDeviceAccelerometer.current = (event) => {
+      setDeviceAccelerometer({
+        x: Number(event.acceleration.x).toFixed(2),
+        y: Number(event.acceleration.y).toFixed(2),
+        z: Number(event.acceleration.z).toFixed(2),
+      })
+    }
+    handleDeviceOrientation.current = (event) => {
+      setDeviceOrientation({
+        alpha: Number(event.alpha).toFixed(2),
+        beta: Number(event.beta).toFixed(2),
+        gamma: Number(event.gamma).toFixed(2),
+      })
+    }
   }, [])
 
-  const handleDeviceOrientation = (event) => {
-    setDeviceOrientation({
-      alpha: Number(event.alpha).toFixed(2),
-      beta: Number(event.beta).toFixed(2),
-      gamma: Number(event.gamma).toFixed(2),
-    })
-  }
-
-  const handleDeviceAccelerometer = (event) => {
-    setDeviceAccelerometer({
-      x: Number(event.acceleration.x).toFixed(2),
-      y: Number(event.acceleration.y).toFixed(2),
-      z: Number(event.acceleration.z).toFixed(2),
-    })
-  }
-
-  const handleAddClick = () => {
+  const handleAddGyroscopeClick = () => {
     // ios 13+ device need permission to use device orientation
     if (
       DeviceMotionEvent &&
@@ -46,7 +47,7 @@ function App() {
           if (response === 'granted') {
             window.addEventListener(
               'deviceorientation',
-              handleDeviceOrientation
+              handleDeviceOrientation.current
             )
           }
         })
@@ -54,8 +55,11 @@ function App() {
     }
   }
 
-  const handleRemoveClick = () => {
-    window.removeEventListener('deviceorientation', handleDeviceOrientation)
+  const handleRemoveGyroscopeClick = () => {
+    window.removeEventListener(
+      'deviceorientation',
+      handleDeviceOrientation.current
+    )
   }
 
   const handleAddAcceleroClick = () => {
@@ -66,7 +70,10 @@ function App() {
       DeviceMotionEvent.requestPermission()
         .then((response) => {
           if (response === 'granted') {
-            window.addEventListener('devicemotion', handleDeviceAccelerometer)
+            window.addEventListener(
+              'devicemotion',
+              handleDeviceAccelerometer.current
+            )
           }
         })
         .catch(console.error)
@@ -74,13 +81,18 @@ function App() {
   }
 
   const handleRemoveAcceleroClick = () => {
-    window.removeEventListener('devicemotion', handleDeviceAccelerometer)
+    window.removeEventListener(
+      'devicemotion',
+      handleDeviceAccelerometer.current
+    )
   }
 
   return (
     <div className="App">
-      <button onClick={handleAddClick}>add gyroscope listener</button>
-      <button onClick={handleRemoveClick}>remove gyroscope listener</button>
+      <button onClick={handleAddGyroscopeClick}>add gyroscope listener</button>
+      <button onClick={handleRemoveGyroscopeClick}>
+        remove gyroscope listener
+      </button>
       <button onClick={handleAddAcceleroClick}>
         add accelerometer listener
       </button>
