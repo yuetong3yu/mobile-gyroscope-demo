@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 
+let listenerId = null
+
 function App() {
   const [userAgent, setUserAgent] = useState('')
 
@@ -22,7 +24,7 @@ function App() {
     })
   }
 
-  const handleClick = () => {
+  const handleAddClick = () => {
     // ios 13+ device need permission to use device orientation
     if (
       DeviceMotionEvent &&
@@ -41,16 +43,15 @@ function App() {
     }
   }
 
+  const handleRemoveClick = () => {
+    window.removeEventListener('deviceorientation', handleDeviceOrientation)
+  }
+
   return (
     <div className="App">
-      <button onClick={handleClick}>ask permission</button>
-      <h1
-        onClick={() => {
-          console.log('123 hi')
-        }}
-      >
-        Your Device:{' '}
-      </h1>
+      <button onClick={handleAddClick}>add listener</button>
+      <button onClick={handleRemoveClick}>remove listener</button>
+      <h1>Your Device: </h1>
       <h3>{userAgent}</h3>
       <br />
       <h3>alpha: {deviceOrientation.alpha}</h3>
