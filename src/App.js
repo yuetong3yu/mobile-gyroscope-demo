@@ -59,16 +59,11 @@ function App() {
   }
 
   const handleAddAcceleroClick = () => {
-    console.log('AccelerometerEvent', AccelerometerEvent)
-    console.log(
-      'AccelerometerEvent.requestPermission',
-      AccelerometerEvent.requestPermission
-    )
     if (
-      AccelerometerEvent &&
-      typeof AccelerometerEvent.requestPermission === 'function'
+      DeviceMotionEvent &&
+      typeof DeviceMotionEvent.requestPermission === 'function'
     ) {
-      AccelerometerEvent.requestPermission()
+      DeviceMotionEvent.requestPermission()
         .then((response) => {
           if (response === 'granted') {
             window.addEventListener('devicemotion', handleDeviceAccelerometer)
@@ -101,9 +96,9 @@ function App() {
       <h3>水平翻转: {deviceOrientation.gamma}</h3>
       <br />
       <h2>加速器</h2>
-      <h3>X轴激素: {deviceAccelerometer.x}</h3>
-      <h3>竖直翻转: {deviceAccelerometer.y}</h3>
-      <h3>水平翻转: {deviceAccelerometer.z}</h3>
+      <h3>X轴加速: {deviceAccelerometer.x}</h3>
+      <h3>Y轴加速: {deviceAccelerometer.y}</h3>
+      <h3>Z轴加速: {deviceAccelerometer.z}</h3>
     </div>
   )
 }
